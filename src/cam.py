@@ -1,16 +1,14 @@
-import pathlib
 import cv2
 
 class Cam:
   def __init__(self, cam: int, width: int, height: int):
     self.frame = None
-
-    self.cap = cv2.VideoCapture(cam)
+    # Use CAP_DSHOW for Windows compatibility
+    self.cap = cv2.VideoCapture(cam, cv2.CAP_DSHOW)
     if not self.cap.isOpened():
       raise RuntimeError("error opening cam")
-    # self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-    # self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
-
+    self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     self.warmup()
 
   def quit(self) -> None:
